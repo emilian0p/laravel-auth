@@ -4,7 +4,7 @@
     <div class="container">
         @if (session("deleted"))
             <div class="warn delete-warn">
-                Post deleted.
+                Post n°{{ session("deleted") }} deleted.
             </div>
         @endif
         <div class="row">
@@ -19,16 +19,20 @@
                     </thead>
                     <tbody>
                         @forelse ($posts as $post)
-                        <tr>
-                            <td>{{ $post->id }}</td>
-                            <td><a href="{{ route("admin.show", $post->id) }}">{{ $post->title }}</a></td>
-                            <td>{{ $post->user }}</td>
-                            <td>{{ $post->date }}</td>
-                            <td>
-                                <a href="{{ route("admin.edit", $post->id) }}" class="btn btn-sm btn-success">Edit</a>
-                                <a href="{{ route("admin.destroy", $post->id) }}" class="btn btn-sm text-danger">Delete</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $post->id }}</td>
+                                <td><a href="{{ route("admin.show", $post->id) }}">{{ $post->title }}</a></td>
+                                <td>{{ $post->user }}</td>
+                                <td>{{ $post->date }}</td>
+                                <td class="d-flex">
+                                    <a href="{{ route("admin.edit", $post->id) }}" class="btn btn-sm btn-success">Edit</a>
+                                    <form action="{{ route("admin.destroy", $post->id) }}" method="POST" class="delete-element-button">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button type="submit" class="btn btn-sm text-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
                         @empty
                             <h2>There are no posts.</h2>
                         @endforelse
