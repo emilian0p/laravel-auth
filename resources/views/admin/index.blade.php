@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container">
+        @if (session("deleted"))
+            <div class="warn delete-warn">
+                Post deleted.
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <table class="table table-dark table-striped">
